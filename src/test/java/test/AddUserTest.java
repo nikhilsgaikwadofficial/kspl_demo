@@ -16,11 +16,11 @@ import pages.CreateUserPage;
             createUser.clickUser();
             createUser.clickAddUser();
 
-            createUser.enterEmpId("Emp1");
+            createUser.enterEmpId("");
             createUser.enterEmpName("Rega");
-            createUser.enterMobile("7634567262");
-            createUser.enterEmail("rega@gmail.com");
-            createUser.enterPassword("Rega@123");
+            createUser.enterMobile("9601896274");
+            createUser.enterEmail("viper@gmail.com");
+            createUser.enterPassword("");
 
 
             createUser.selectRole("Level 1");

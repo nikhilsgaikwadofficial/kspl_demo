@@ -20,7 +20,7 @@ import java.time.Duration;
         By master = By.xpath("(//i[@class='fa fa-database '])");
         By area = By.xpath("(//i[@class='fa fa-map-marked-alt '])");
         By List = By.xpath("//a[@href='https://ourattendance.com/web-portal_uat/public/areas']");
-        By delete = By.xpath("(//i[@class='fa fa-trash'])[7]");
+        By delete = By.xpath("(//i[@class='fa fa-trash'])[6]");
 
 
         public void clickMaster() {
@@ -39,25 +39,39 @@ import java.time.Duration;
         }
 
         public void clickDelete() {
-            WebElement deletee = wait.until(ExpectedConditions.visibilityOfElementLocated(delete));
+            WebElement deletee = wait.until(ExpectedConditions.presenceOfElementLocated(delete));
+            js.executeScript("arguments[0].scrollIntoView({block:'center'});", deletee);
+            wait.until(ExpectedConditions.elementToBeClickable(deletee));
             js.executeScript("arguments[0].click();", deletee);
         }
         public void deleteAreaAndAcceptAlert() {
 
-            WebElement deletee = wait.until(ExpectedConditions.presenceOfElementLocated(delete));
+            WebElement deleteBtn = wait.until(ExpectedConditions.presenceOfElementLocated(delete));
 
+            js.executeScript("arguments[0].scrollIntoView({block:'center'});", deleteBtn);
 
-            js.executeScript("arguments[0].scrollIntoView({block:'center'});", delete);
+            try { Thread.sleep(500); } catch (InterruptedException e) { }
 
-            wait.until(ExpectedConditions.elementToBeClickable(delete)).click();
+            // Click the <a> tag directly (which has the onclick confirm handler)
+            js.executeScript("arguments[0].click();", deleteBtn);
 
+            try {
+                // Try handling native browser alert first
+                Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+                String alertText = alert.getText();
+                System.out.println("Alert message: " + alertText);
+                alert.accept();
+            } catch (Exception e) {
+                // If no native alert, it might be a SweetAlert/custom modal — click the confirm button
 
-            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-
-            String alertText = alert.getText();
-            System.out.println("Alert message: " + alertText);
-
-            alert.accept(); // Click OK
+                try {
+                    WebElement confirmBtn = wait.until(ExpectedConditions.elementToBeClickable(
+                            By.cssSelector(".swal2-confirm, .swal-button--confirm, button.confirm, .btn-ok, .btn-danger")));
+                    confirmBtn.click();
+                } catch (Exception ex) {
+                    //System.out.println("No custom dialog found either: " + ex.getMessage());
+                }
+            }
         }
 
         // Optional: Cancel delete

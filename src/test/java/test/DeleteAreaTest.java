@@ -11,7 +11,6 @@ public class DeleteAreaTest extends BaseTest {
         dap.clickMaster();
         dap.clickArea();
         dap.clickList();
-        dap.clickDelete();
         dap.deleteAreaAndAcceptAlert();
     }
 }

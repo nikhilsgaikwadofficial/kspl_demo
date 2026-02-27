@@ -1,0 +1,128 @@
+TCID,Test Scenario,Test Case Name,Test Steps,Test Data,Expected Result,Actual Result,Status
+LGN-01,Valid Login,Login with correct credentials,"1. Navigate to login page
+2. Enter valid email
+3. Enter valid password
+4. Click Sign In","Email: venture@example.com
+Pass: 12345678",User should be redirected to the Dashboard,,Pending
+LGN-02,Invalid Login,Login with incorrect password,"1. Enter valid email
+2. Enter wrong password
+3. Click Sign In","Email: venture@example.com
+Pass: wrongpass",System should show "Invalid password" error,,Pending
+LGN-03,Invalid Login,Login with non-existent email,"1. Enter non-existent email
+2. Enter any password
+3. Click Sign In","Email: unknown@test.com
+Pass: 12345678",System should show "User not found" or similar error,,Pending
+LGN-04,Mandatory Field,Login with empty email,"1. Leave email empty
+2. Enter valid password
+3. Click Sign In","Email: [Empty]
+Pass: 12345678",Validation message "Please fill out this field" should appear,,Pending
+LGN-05,Mandatory Field,Login with empty password,"1. Enter valid email
+2. Leave password empty
+3. Click Sign In","Email: venture@example.com
+Pass: [Empty]",Validation message "Please fill out this field" should appear,,Pending
+LGN-06,Field Masking,Password masking check,1. Type password in password field,Password: password123,Characters should be hidden (dots or stars),,Pending
+LGN-07,UI/UX,Verify Forgot Password link,1. Click on "Forgot Password" link,N/A,User should be redirected to Password Reset page,,Pending
+LGN-08,Security,Check SQL Injection in login,"1. Enter ' OR '1'='1 in email
+2. Enter any password
+3. Click Sign In","Email: ' OR '1'='1
+Pass: admin123",Access should be denied,,Pending
+LGN-09,Session,Dashboard access without login,1. Attempt to access dashboard URL directly,URL: /public/dashboard,User should be redirected to Login page,,Pending
+LGN-10,Logout,Logout functionality,"1. Log in
+2. Click on Profile/Logout button",N/A,User should be logged out and sent to Login page,,Pending
+USR-01,Create User,Successful user creation,"1. Navigate to Add User
+2. Fill all mandatory fields
+3. Click Save","EmpId: 501, Name: John Doe, Email: john@test.com",User should be created successfully and listed,,Pending
+USR-02,Validation,Create user with empty Emp ID,"1. Leave Emp ID empty
+2. Fill other fields
+3. Click Save",EmpId: [Empty],"Employee ID is required" error message,,Pending
+USR-03,Data Integrity,Duplicate Emp ID check,"1. Enter an existing Employee ID
+2. Fill other fields
+3. Click Save",EmpId: 101 (Existing),"Employee ID already exists" error,,Pending
+USR-04,Format Check,Invalid email format,"1. Enter email without '@' or domain
+2. Click Save",Email: invalidemail,"Invalid email format" error,,Pending
+USR-05,Field Limit,Mobile number length check,"1. Enter mobile number with < 10 digits
+2. Click Save",Mobile: 12345,"Mobile number must be 10 digits" error,,Pending
+USR-06,Dropdown,Role selection verification,"1. Open Role dropdown
+2. Select a role (e.g., Manager)",Role: Manager,Selected role should be displayed in the field,,Pending
+USR-07,Password,Password length validation,"1. Enter password with < 6 characters
+2. Click Save",Password: 123,"Password should be at least 6 characters" error,,Pending
+USR-08,Search,Search user by name,"1. Enter name in search bar
+2. Click search",Name: John,"Results matching ""John"" should be displayed",,Pending
+USR-09,Management,Deactivate user status,"1. Select a user
+2. Change status to ""Inactive""
+3. Save",Status: Inactive,User should not be able to log in,,Pending
+USR-10,Management,Delete user confirmation,"1. Click Delete button on a user
+2. Check for confirmation popup",N/A,Confirmation dialog should appear before deletion,,Pending
+ARA-01,Master Setup,Add new Area success,"1. Master -> Area -> Add
+2. Fill State, Name, Address
+3. Save",Name: Downtown Branch,New area should be saved successfully,,Pending
+ARA-02,Validation,Add area without State,"1. Leave State unselected
+2. Click Save",State: [None],"Please select state" validation error,,Pending
+ARA-03,Coordinates,Latitude format validation,"1. Enter invalid Latitude (e.g., text)
+2. Click Save",Lat: abc,"Latitude must be numeric" error,,Pending
+ARA-04,Radius,Area radius value check,"1. Enter negative radius
+2. Click Save",Radius: -50,"Radius must be a positive number" error,,Pending
+ARA-05,Working Hours,Shift timing validation,1. Enter End Time earlier than Start Time,"Start: 09:00, End: 08:00",Error: End time cannot be before start time,,Pending
+ARA-06,Navigation,Module navigation check,1. Click Master -> Area,N/A,Area listing page should load,,Pending
+ARA-07,Management,Edit existing area,"1. Select area -> Edit
+2. Update address
+3. Save",Address: New Street 123,Updated address should reflect in the list,,Pending
+ARA-08,Management,Delete area verification,"1. Select area -> Delete
+2. Confirm",N/A,Area should be removed from the system,,Pending
+ARA-09,Filter,Filter area by State,1. Select a state in filter dropdown,State: Maharashtra,Only areas from Maharashtra should be visible,,Pending
+ARA-10,Data Integrity,Duplicate Area name,"1. Enter an existing Area name
+2. Save",Name: Branch A (Existing),"Area name already exists" error,,Pending
+LEV-01,Attendance,Add Leave Balance for User,"1. Leave Management -> Add Leave Balance
+2. Select User, Year, Leave counts","Emp: 101, Year: 2026, Paid: 15",Balance should be assigned,,Pending
+LEV-02,Validation,Negative leave count,"1. Enter negative value for Sick Leaves
+2. Save",Sick: -2,"Leaves cannot be negative" error,,Pending
+LEV-03,History,View leave history,1. Navigate to Leave History for a user,User: 101,List of previous leaves should be shown,,Pending
+LEV-04,Calculation,Automatic balance deduction,"1. Approve a 2-day leave for a user
+2. Check balance","Initial: 20, Approved: 2",New balance should be 18,,Pending
+LEV-05,Settings,Leave policy verification,1. Check if "Casual Leave" limit is enforced,Limit: 12,User should not be able to apply more than 12 CLs,,Pending
+LEV-06,Workflow,Leave application approval,"1. Login as Admin
+2. Go to Pending Leaves
+3. Click Approve",N/A,Leave status should change to "Approved",,Pending
+LEV-07,Workflow,Leave application rejection,"1. Go to Pending Leaves
+2. Click Reject
+3. Add remark",Remark: Staff shortage,Leave status should change to "Rejected",,Pending
+LEV-08,UI,Leave summary dashboard,1. Check leave dashboard widget,N/A,"Should show total pending, approved, and rejected leaves",,Pending
+LEV-09,Date Check,Apply leave for past dates,1. Select a past date for leave application,Date: 2024-01-01,Error: Cannot apply leave for past dates,,Pending
+LEV-10,Year Selection,Leave balance for future years,1. Select next year in dropdown,Year: 2027,Should allow setting balance for future years,,Pending
+HOL-01,Holiday,Add New Holiday,"1. Holiday -> Add
+2. Enter date and name
+3. Save",Date: Aug 15, Name: Independence Day,Holiday should be added to the calendar,,Pending
+HOL-02,Holiday,Validation - Empty name,"1. Select date
+2. Leave name empty
+3. Save",Name: [Empty],"Holiday name is required" error,,Pending
+HOL-03,Holiday,Delete holiday,"1. Select holiday
+2. Click Delete",N/A,Holiday should be removed,,Pending
+HOL-04,Holiday,Overlapping Holidays,1. Try to add holiday on a date already marked,Date: Jan 1,Error: Holiday already exists on this date,,Pending
+HOL-05,Holiday,Add holiday for past year,"1. Select a date from last year
+2. Save",Date: 2023-12-25,Should allow adding past holidays for records,,Pending
+HOL-06,Holiday,Bulk Add Holidays,1. Use bulk add feature (if available),N/A,System should handle multiple entries correctly,,Pending
+HOL-07,Holiday,UI - Holiday list pagination,1. Check for pagination links,N/A,Pagination should work (e.g., 10 per page),,Pending
+HOL-08,Holiday,Export holiday list,1. Click Export to Excel/CSV,N/A,File should download with all holidays,,Pending
+HOL-09,Holiday,Filter - Search holiday by name,1. Enter "Diwali" in search box,Name: Diwali,Only Diwali should be visible,,Pending
+HOL-10,Holiday,Selection - Date picker range check,1. Try to select far future date,Year: 2050,Should allow selection of future dates,,Pending
+NTC-01,Notice,Create New Notice,"1. Notice -> Add
+2. Enter Title, Content, Expiry
+3. Submit",Title: Meeting, Content: All staff attend,Notice should be visible to users,,Pending
+NTC-02,Notice,Notice expiry verification,"1. Set notice expiry to yesterday
+2. Check user view",Expiry: 2026-02-25,Notice should not be visible to staff,,Pending
+NTC-03,Notice,Edit Notice,"1. Select notice
+2. Update title
+3. Save",Title: Updated Meeting Time,Changes should reflect immediately,,Pending
+NTC-04,Notice,Bulk Delete Notices,"1. Select multiple notices
+2. Click Bulk Delete",N/A,Selected notices should be removed,,Pending
+NTC-05,Notice,Role based notice visibility,"1. Create notice for Admins only
+2. Login as Staff",Role: Staff,Notice should not be visible to Staff,,Pending
+NTC-06,Notice,Add notice with attachment,"1. Upload a PDF/Image
+2. Save",File: policy.pdf,Notice should be saved with the file,,Pending
+NTC-07,Notice,Notice content styling,1. Use HTML/Markdown in content,Content: **Bold Text**,Formatting should be rendered correctly,,Pending
+NTC-08,Notice,Pin/Unpin notice,1. Select notice -> Pin to top,N/A,Notice should stay at the top of the list,,Pending
+NTC-09,Notice,Validation - Add notice without Title,"1. Leave title empty
+2. Save",Title: [Empty],"Title is required" error,,Pending
+NTC-10,Notice,Archive notice,1. Select notice -> Archive,N/A,Notice should move to Archived section,,Pending
+MISC-01,General,Multi-window session,1. Open app in two different tabs,N/A,User should remain logged in across both tabs,,Pending
+MISC-02,General,Responsive UI check,1. Resize browser to mobile view,N/A,Menu and tables should adjust correctly,,Pending
