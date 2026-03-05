@@ -11,9 +11,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
     public class BasePage {
-        WebDriver driver;
-        JavascriptExecutor js;
-        WebDriverWait wait;
+        protected WebDriver driver;
+        protected JavascriptExecutor js;
+        protected WebDriverWait wait;
         public BasePage(WebDriver driver){
             this.driver=driver;
             this.js=(JavascriptExecutor)driver;
